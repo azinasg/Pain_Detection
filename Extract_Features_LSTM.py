@@ -119,7 +119,7 @@ def read_img(image_path, aug_mode, shear_x, shear_y, output_path, degree=0, alig
         img = img.rotate_ccw_about_centre(-degree, degrees=True, retain_shape=False)
 
 
-    # find the bounding box based on lanrmakrs and add 40% to its top part
+    # Crop the bounding box based on lanrmakrs and add 40% to its top part
     if crop_around_bb:
         bb = img.landmarks['face_ibug_66_trimesh'].bounding_box()
         d_y = 0.4 * (bb.points[1, 0] - bb.points[0, 0])
