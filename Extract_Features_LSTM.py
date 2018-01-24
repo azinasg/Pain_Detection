@@ -1,3 +1,8 @@
+#
+# To Do List
+# Aug Mode 8 and 9, later to stretching and ...
+#
+
 import cPickle as pickle
 import sys
 
