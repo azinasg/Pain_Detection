@@ -71,8 +71,9 @@ def read_data(path, BBs):
 if __name__ == '__main__':
     # Initialization
     # Root to the images and landmarks
-    data_root = './data/'
+    root = './data/'
     for side in ['frontal', 'profile']:
+        data_root = root + side + '/' 
         BBs = scio.loadmat(side + '_bbox.mat')
         BBs = BBs[side + '_bbox']
 
