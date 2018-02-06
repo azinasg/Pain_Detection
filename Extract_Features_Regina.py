@@ -77,7 +77,7 @@ if __name__ == '__main__':
         # Prepare the features
         Data = read_data(data_root, BBs)
 
-        print 'Saving'
+        print 'Saving the features'
         scio.savemat('./Regina_' + side + '_features.mat', Data)
         np.save('./Regina_' + side + '_features.npy', Data)
         print 'Data is saved now!'
