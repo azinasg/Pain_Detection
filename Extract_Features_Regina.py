@@ -27,6 +27,8 @@ def convert_img(img_menpo):
 # Read the image and resize it to (224, 224)
 # ----------------------------------------------------------------------------------------------------------------------
 def read_img(path, filename, points):
+    top_coef = 0.3
+    pad_prop = 0.1
     img = mio.import_image(path+filename)
     # img = img.crop([points[2], points[0]], [points[3], points[1]], constrain_to_boundary=False)
 
@@ -34,12 +36,12 @@ def read_img(path, filename, points):
     P = bounding_box([points[2], points[0]], [points[3], points[1]])
 
     # Adding extra 40% to top
-    d_y = 0.3 * (P.points[1, 0] - P.points[0, 0])
+    d_y = top_coef * (P.points[1, 0] - P.points[0, 0])
     P.points[0, 0] -= d_y
     P.points[3, 0] -= d_y
 
     # Croping the image
-    img = img.crop_to_pointcloud_proportion(P, 0.1)
+    img = img.crop_to_pointcloud_proportion(P, pad_prop)
     img = img.resize(shape=(224, 224))
 
     # Saving the image
