@@ -1,3 +1,8 @@
+#
+# This code extract the VGG featuers from Regina images, frontal and profile images
+# With using Dlib Boudning Boxes and padding the images(adding 30% to the top and 10% padding) 
+#
+#
 import menpo.io as mio
 import numpy as np
 import scipy.io as scio
