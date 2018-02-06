@@ -6,6 +6,7 @@
 import menpo.io as mio
 import numpy as np
 import scipy.io as scio
+import cPickle as pickle
 from keras_vggface.utils import preprocess_input
 from keras_vggface.vggface import VGGFace
 from menpo.shape import bounding_box
@@ -87,5 +88,6 @@ if __name__ == '__main__':
 
         print 'Saving the features'
         scio.savemat('./Regina_' + side + '_features.mat', Data)
-        np.save('./Regina_' + side + '_features.npy', Data)
+        with open('./Regina_' + side + '_features.pkl', 'wb') as f:
+            pickle.dump(Data, f)
         print 'Data is saved now!'
