@@ -38,7 +38,7 @@ def read_img(path, filename, points):
     img = img.resize(shape=(224, 224))
 
     # Saving the image
-    mio.export_image(img, './0_'+filename, overwrite=True)
+    # mio.export_image(img, './0_'+filename, overwrite=True)
 
     return img.pixels, img.landmarks['LJSON'].points
 
@@ -65,6 +65,7 @@ def read_data(path, BBs):
 # ----------------------------------------------------------------------------------------------------------------------
 if __name__ == '__main__':
     # Initialization
+    # Root to the images and landmarks
     data_root = './data/'
     for side in ['frontal', 'profile']:
         BBs = scio.loadmat(side + '_bbox.mat')
