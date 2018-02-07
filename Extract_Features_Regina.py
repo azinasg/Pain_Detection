@@ -1,17 +1,16 @@
 #
 # This code extract the VGG featuers from Regina images, frontal and profile images
-# With using Dlib Boudning Boxes and padding the images(adding 30% to the top and 10% padding) 
+# With using Dlib Boudning Boxes and padding the images(adding 30% to the top and 10% padding)
 #
 #
 import menpo.io as mio
 import numpy as np
 import scipy.io as scio
-import cPickle as pickle
 from keras_vggface.utils import preprocess_input
 from keras_vggface.vggface import VGGFace
 from menpo.shape import bounding_box
-
-
+from progress.bar import Bar
+import cPickle as pickle
 # ----------------------------------------------------------------------------------------------------------------------
 # Defining Helper Functions for Data Preparation
 # ----------------------------------------------------------------------------------------------------------------------
@@ -55,6 +54,7 @@ def read_img(path, filename, points):
 # ----------------------------------------------------------------------------------------------------------------------
 def read_data(path, BBs):
     data = {}
+    bar = Bar('Extravt VGG feature', max=len(BBs), fill='=')
     for i in range(len(BBs)):
         filename = str(BBs[i][0][0][0])
         points = [BBs[i][0][1][0][0], BBs[i][0][2][0][0], BBs[i][0][3][0][0], BBs[i][0][4][0][0]]
@@ -66,6 +66,8 @@ def read_data(path, BBs):
         # Extracting the VGG features
         feature = model_conv.predict(sample)
         data[filename] = [feature[0,:], aam]
+        bar.next()
+    bar.finish()
     return data
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -74,10 +76,10 @@ def read_data(path, BBs):
 if __name__ == '__main__':
     # Initialization
     # Root to the images and landmarks
-    root = './data/'
+    root = './Regina_data/'
     for side in ['frontal', 'profile']:
-        data_root = root + side + '/' 
-        BBs = scio.loadmat(side + '_bbox.mat')
+        data_root = root + side + '/'
+        BBs = scio.loadmat(root + 'bounding_box/' + side + '_bbox.mat')
         BBs = BBs[side + '_bbox']
 
         #Building the VGG Model
@@ -88,6 +90,7 @@ if __name__ == '__main__':
 
         print 'Saving the features'
         scio.savemat('./Regina_' + side + '_features.mat', Data)
+        #np.save('./Regina_' + side + '_features.npy', Data)
         with open('./Regina_' + side + '_features.pkl', 'wb') as f:
             pickle.dump(Data, f)
         print 'Data is saved now!'
